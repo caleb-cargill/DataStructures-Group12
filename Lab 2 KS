@@ -1,0 +1,88 @@
+#include <iostream>
+#include <cstdlib>
+
+using namespace std;
+
+const int numElements = 5;
+
+
+
+class Basketball{
+private:
+	string  Name;
+	int shotsTaken;
+	int shotsMade;
+	int passesAtttempt;
+	int passesMade;
+public:
+
+	int passBall();
+	int takeShot();
+
+};
+
+int Basketball:: passBall(){
+	passStatus bool;
+
+	int passSuccess;
+	int passThreshold;
+	
+	passSuccess = rand()%100;
+	passThreshold = rand()%100
+	
+
+	if(passSuccess > passThreshold){
+	passesAttempted++;
+	passesMade++;
+	passStatus = True;
+}
+	else{
+	passesAttempted++;
+	passStatus = false;
+}
+
+	return passStatus;
+}
+
+int Basketball:: takeShot(shotValue){
+	
+	int shotSuccess;
+	int shotThreshold;
+
+	if (shotValue == 1){
+	shotSuccess= rand()%80;
+	shotThreshold = rand()%100
+}
+	elseif(shotValue==2){
+
+	shotSuccess= rand()%100;
+	shotThreshold = rand()%100
+}
+	elseif(shotValue==3){
+
+	shotSuccess= rand()%120;
+	shotThreshold = rand()%100
+
+}
+	++shotsTaken;
+	++shotsMade;
+
+	if(shotSuccess > shotThreshold){
+	shotStatus = true;
+
+}
+	else{
+	shotStatus = false;
+}
+	return shotStatus;
+}
+
+int main(){
+	
+
+
+
+
+	return 0;
+}
+
