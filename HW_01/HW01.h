@@ -7,11 +7,6 @@
 
 using namespace std;
 
-struct LETF {
-public:
-
-};
-
 struct CardCatalog {
 public:
 	CardCatalog() {
@@ -62,86 +57,20 @@ public:
 		return lineCount;
 	}
 
-	int getLetFreq(fstream &out) {
-		char let = 'a';
-		for (int i = 0; i < letfreq.size(); ++i) {
-			let = 'a' + i;
-			cout << let << ": " << letfreq.at(i) << " times" << 
-				" (" << (static_cast<float>(letfreq.at(i)) / totLet) * 100 << "%)" << endl;
-			out << let << ": " << letfreq.at(i) << " times" << 
-				" (" << (static_cast<float>(letfreq.at(i)) / totLet) * 100 << "%)" << "\n";
-		}
+	int getLetFreq(fstream& out);
 
-		cout << "Total Letters: ";
-		return totLet;
-	}
+	void LetCount(ifstream& inp);
 
-	void LetCount(ifstream& inp) {
-		int wc = 0;
-		int lc = 0;
-		int abc = 26;
-		char ch;
-		string word;
-		vector<int> freq(26, 0);
-		inp.clear();
-		inp.seekg(0, ios::beg);
-		getline(inp, word);
-		getline(inp, word);
-		getline(inp, word);
-		while (!inp.eof()) {
-			inp.get(ch);
-			if (!(ispunct(ch) || isspace(ch))) {
-				for (int i = 0; i <= 26; ++i) {
-					if ('a' + i == ch) {
-						freq.at(i)++;
-						lc++;
-					}
-				}
-			}
-		}
-		letfreq = freq;
-		totLet = lc;
-	}
+	void CountWords(ifstream& inp); 
 
-	void CountWords(ifstream &inp) {
-		string word;
-		int count = 0;
-
-		while (!inp.eof()) {
-			inp >> word;
-			count++;
-		}
-		wordCount = count - 1;
-	}
-
-	void LineCount(ifstream& inp) {
-		string line;
-		int count = 0;
-		inp.clear();
-		inp.seekg(0, ios::beg);
-		getline(inp, line);
-		getline(inp, line);
-		getline(inp, line);
-		while (!inp.eof()) {
-			getline(inp, line);
-			if (line != " ") {
-				count++;
-			}
-		}
-
-		lineCount = count - 1;
-	}
-
-	
-
-	//~CardCatalog();
+	void LineCount(ifstream& inp);
 
 private:
 	string title;
 	string first;
 	string last;
 	string fullName;
-	vector<int> letfreq;
+	int letfreq[26] = {0};
 	int wordCount;
 	int totLet;
 	int lineCount;
