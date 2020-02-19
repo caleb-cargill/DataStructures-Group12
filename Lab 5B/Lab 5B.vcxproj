@@ -139,7 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EntertainmentCollection.cpp" />
-    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MainLab5.cpp" />
     <ClCompile Include="Show.cpp" />
   </ItemGroup>
   <ItemGroup>
