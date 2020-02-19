@@ -124,17 +124,14 @@ int main() {
 					houseWinningSpinCount += 1;
 				}
 			}
-			// If the house doesn't win, player gets half their original bet value
-			if (houseWinningSpinCount == 0) {
-				updateBalance(true, user, betValue);
-			}
-			// If the house wins once, player gets nothing and loses nothing
-			else if (houseWinningSpinCount == 1) {
+
+			// If the house does not win or only wins once, player gets nothing and loses nothing
+			if (houseWinningSpinCount == 0 || houseWinningSpinCount == 1) {
 				updateBalance(true, user, 0);
 			}
-			// If the house wins twice, player loses original bet value
+			// If the house wins twice, player loses half original bet value
 			else {
-				updateBalance(false, user, betValue * 2);
+				updateBalance(false, user, betValue);
 			}
 			houseWinningSpinCount = 0; // Resets houseWinningSpinCount to 0
 

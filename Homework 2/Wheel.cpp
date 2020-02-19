@@ -3,10 +3,12 @@
 #include <time.h> // time()
 using namespace std;
 
+// Definition of default constructor, sets range to 10
 Wheel::Wheel() {
 	range = 10;
 }
 
+// Definition of constructor accepting an argument to set the range
 Wheel::Wheel(int newRange) {
 	range = newRange;
 }
