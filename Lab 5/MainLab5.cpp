@@ -36,7 +36,7 @@ int main() {
 		}
 			  break;
 		case 3: {
-			cout << "Number of board games on the shelf: " << thisShelf.Length() << endl;
+			cout << "Number of board games on the shelf: " << thisShelf.Length() << endl << endl;
 		}
 			  break;
 		case 4: {
