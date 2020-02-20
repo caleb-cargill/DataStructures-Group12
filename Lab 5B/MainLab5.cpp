@@ -20,6 +20,7 @@ int main() {
 				thisShelf.Push(show);
 			}
 			catch (EntertainmentCollection<Show>::FullShelf& exFull) {
+				cout << exFull.msg << endl << endl;
 			}
 		}
 			  break;
@@ -29,6 +30,7 @@ int main() {
 				show.Details();
 			}
 			catch (EntertainmentCollection<Show>::EmptyShelf& exEmpty) {
+				cout << exEmpty.msg << endl << endl;
 			}
 		}
 			  break;

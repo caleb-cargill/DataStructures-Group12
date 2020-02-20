@@ -18,9 +18,6 @@
     <ClCompile Include="Show.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EntertainmentCollection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MainLab5.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
