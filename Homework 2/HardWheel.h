@@ -15,6 +15,6 @@ public:
 	}
 
 protected:
-	int winstreak = 0;
+	int winstreak;
 	int minRange = 0;
 };

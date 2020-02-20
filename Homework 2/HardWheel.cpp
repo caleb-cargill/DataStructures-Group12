@@ -5,6 +5,7 @@
 // Default constructor, initializes range to 10
 HardWheel::HardWheel() {
 	range = 10;
+	winstreak = 0;
 }
 
 // Takes the playerScore and then gets a random int between 1 and range
