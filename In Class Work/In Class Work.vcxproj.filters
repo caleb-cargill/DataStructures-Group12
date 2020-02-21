@@ -18,5 +18,8 @@
     <ClInclude Include="StackOfInts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="QueueOfInts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
