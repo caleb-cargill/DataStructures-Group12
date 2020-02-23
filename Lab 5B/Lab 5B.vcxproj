@@ -138,7 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="MainLab5.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Show.cpp" />
   </ItemGroup>
   <ItemGroup>

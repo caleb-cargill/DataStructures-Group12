@@ -20,9 +20,8 @@ public:
 			shelf[top] = inVal;
 			top++;
 		}
-		else {
+		else 
 			throw FullShelf();
-		}
 	};
 
 	// Function definition to remove the last item from the stack (top item) and return it to caller
