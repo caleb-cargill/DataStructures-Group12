@@ -7,18 +7,23 @@ using namespace std;
 template<class T> class TowerStack {
 private:
 	int MAX_SIZE = 5;
-	T *stack[MAX_SIZE];
+	T *stack;
 	int top = 0; // first open spot
 public:
+	TowerStack() {
+		stack = new T[MAX_SIZE];
+	}
+
 	TowerStack(int arraySize) {
 		top = 0;
 		MAX_SIZE = arraySize;
+		stack = new T[MAX_SIZE];
 	}; // Default constructor
 
 	// Function definition to put an item on the stack
 	void Push(T *inVal) {
 		if (!isFull()) {
-			stack[top] = inVal;
+			stack[top] = *inVal;
 			top++;
 		}
 		else
@@ -29,9 +34,9 @@ public:
 	T *Pop() {
 		if (!isEmpty()) {
 			top--;
-			return stack[top];
+			return &stack[top];
 		}
-		throw EmptyShelf();
+		throw EmptyStack();
 	};
 
 	// Shows the top item in the stack without removing it
@@ -59,7 +64,7 @@ public:
 	// Empties out the stack
 	void MakeEmpty() {
 		for (int i = 0; i < Length(); i++)
-			delete tower[i];
+			delete stack[i];
 		top = 0;
 	};
 
