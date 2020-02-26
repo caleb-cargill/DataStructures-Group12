@@ -20,6 +20,10 @@ public:
 		stack = new T[MAX_SIZE];
 	}; // Default constructor
 
+	~TowerStack() {
+		delete stack;
+	}
+
 	// Function definition to put an item on the stack
 	void Push(T *inVal) {
 		if (!isFull()) {

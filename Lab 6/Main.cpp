@@ -9,38 +9,45 @@ using namespace std;
 void reverseString();
 
 int main() {
-	// Testing stack
-	int x1 = 1;
-	int x2 = 2;
-	int x3 = 3;
-	int* x1ptr = &x1;
-	int* x2ptr = &x2;
-	int* x3ptr = &x3;
-	TowerStack<int>* stack = new TowerStack<int>(10);
-	TowerQueue<int>* queue = new TowerQueue<int>(10);
+	//// Testing stack
 
-	stack->Push(x1ptr);
-	stack->Push(x2ptr);
-	stack->Push(x3ptr);
-	int itrlen = stack->Length();
-	for (int i = 0; i < itrlen; i++) {
-		int* x = stack->Pop();
-		cout << *x << endl;
-		queue->Enqueue(x);
-	}
+	//int x1 = 1;
+	//int x2 = 2;
+	//int x3 = 3;
+	//int* x1ptr = &x1;
+	//int* x2ptr = &x2;
+	//int* x3ptr = &x3;
+	//TowerStack<int>* stack = new TowerStack<int>(10);
+	//TowerQueue<int>* queue = new TowerQueue<int>(10);
 
-	cout << endl;
+	//stack->Push(x1ptr);
+	//stack->Push(x2ptr);
+	//stack->Push(x3ptr);
+	//int itrlen = stack->Length();
+	//for (int i = 0; i < itrlen; i++) {
+	//	int* x = stack->Pop();
+	//	cout << *x << endl;
+	//	queue->Enqueue(x);
+	//  delete x;
+	//}
 
-	for (int i = 0; i < itrlen; ++i) {
-		int* x = queue->Dequeue();
+	//cout << endl;
 
-		cout << *x << endl;
+	//for (int i = 0; i < itrlen; ++i) {
+	//	int* x = queue->Dequeue();
 
-	}
+	//	cout << *x << endl;
+	
+	//  delete x;
 
-	cout << endl;
+	//}
 
-	//reverseString();
+	//cout << endl;
+
+	reverseString();
+
+	//delete stack;
+	//delete queue;
 }
 
 
@@ -82,4 +89,7 @@ void reverseString() {
 	//fo
 
 	cout << endl;
+
+	delete stackF;
+	delete queueF;
 }

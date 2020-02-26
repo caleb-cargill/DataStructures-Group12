@@ -22,6 +22,10 @@ public:
 		tower = new T[MAX_SIZE];
 	}
 
+	~TowerQueue() {
+		delete tower;
+	}
+
 
 	void Enqueue(T *inVal) {
 		if (!isFull())
