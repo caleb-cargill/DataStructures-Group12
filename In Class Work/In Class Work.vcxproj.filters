@@ -21,5 +21,11 @@
     <ClInclude Include="QueueOfInts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NodeChar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListChar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

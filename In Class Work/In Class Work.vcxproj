@@ -138,6 +138,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ListChar.h" />
+    <ClInclude Include="NodeChar.h" />
     <ClInclude Include="QueueOfInts.h" />
     <ClInclude Include="StackOfInts.h" />
   </ItemGroup>
