@@ -1,25 +1,26 @@
 #pragma once
 #include <exception>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
 template <class T> class BaseList
 {
 protected:
-	int MAX_SIZE = 25;
-	
+	const static int MAX_SIZE = 25;
+	T* list[MAX_SIZE];
 	int size = 0;
 
 public:
-	T* list;
-
 	BaseList() {
-		list = new T[MAX_SIZE];
+		for (int i = 0; i < MAX_SIZE; i++) {
+			list[i] = nullptr;
+		}
 	}
 
 	~BaseList() {
-		delete list;
+		MakeEmpty();
 	}
 
 	bool operator>(const T& rhs) {
@@ -35,78 +36,62 @@ public:
 	}
 
 	// adds item at correct location
-	void AddItem(T *inVal) {
+	void AddItem(T &inVal) {
+		int itemIndex = 0;
+		bool biggestItem = true;
 		if (IsFull()) {
 			throw ListOverflow();
 		}
-			
-		if (size == 0){
-			list[0] = *inVal;
+
+		if (size == 0) {
+			list[0] = new T(inVal);
+			size++;
+			return;
 		}
 
 		for (int i = 0; i < size; i++) {
-			if (i == 0 && list[i] > *inVal){
-				// add item at i and move everything back 
-				for (int j = size; j > i; j--) {
-					list[j] = list[j - 1];
-				}
-
-				// put item at i
-				list[i] = *inVal;
+			if (*list[i] >= inVal) {
+				itemIndex = i;
+				biggestItem = false;
 				break;
 			}
-			else if (i + 1 == size)
-			{
-				// add item to back of list, no need to move anything back
-				list[i + 1] = *inVal;
-			}
-			else if (list[i] < *inVal && list[i + 1] > *inVal) {
-				// iterate through the list from the back and move items back
-				for (int j = size; j > i + 1; j--) {
-					list[j] = list[j - 1];
-				}
+		}
 
-				// put item at i + 1
-				list[i + 1] = *inVal;
-				break;
+		if (biggestItem) {
+			list[size] = new T(inVal);
+		}
+		else {
+			for (int j = size; j > itemIndex; j--) {
+				list[j] = list[j - 1];
 			}
-			else if (list[i] == *inVal)
-			{
-				// add item at i and move other items back
-				for (int j = size; j > i; j--) {
-					list[j] = list[j - 1];
-				}
-
-				// put item at i
-				list[i] = *inVal;
-				break;
-			}
-			
+			list[itemIndex] = new T(inVal);
 		}
 		size++;
 	}
 
 	// removes specified item
-	T RemoveItem(T *item) {
+	T RemoveItem(T &item) {
 		bool itemfound = false;
 		int itemIndex = 0;
+		T* temp = nullptr;
 		if (IsEmpty()) {
 			throw ListUnderflow();
 		}
 
-		if (*item == list[size - 1]) {
-			list[size - 1] = NULL;
+		if (item == *list[size - 1]) {
+			delete list[size - 1];
 			itemfound = true;
 		}
 		else {
 			for (int i = 0; i < size; i++) {
-				if (*item == list[i]) {
+				if (item == *list[i]) {
 					itemfound = true;
 					itemIndex = i;
+					delete list[itemIndex];
 					for (int j = itemIndex; j < size - 1; j++) {
-						list[j] = list[j+1];
+						list[j] = list[j + 1];
 					}
-					list[size - 1] = NULL;
+					list[size - 1] = nullptr;
 					break;
 				}
 			}
@@ -132,14 +117,24 @@ public:
 	// Empties the list
 	void MakeEmpty() {
 		for (int i = 0; i < size; i++)
-			list[i] = NULL;
+			delete list[i];
 		size = 0;
 	}
 
-	void PrintList() {
+	void PrintListPointers() {
+		cout << "Pointer array" << endl;
 		for (int i = 0; i < size; i++) {
-			/*cout << list[i] << " ";*/
+			cout << list[i] << " ";
 		}
+		cout << endl << endl;
+	}
+
+	void PrintListValues() {
+		cout << "Pointer array values" << endl;
+		for (int i = 0; i < size; i++) {
+			cout << *list[i] << " ";
+		}
+		cout << endl << endl;
 	}
 
 	class ListOverflow : public exception {
