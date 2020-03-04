@@ -8,7 +8,7 @@ using namespace std;
 int main() {
 	BaseList<int>* orderedList = new BaseList<int>();
 	MiddleIndexList<int>* middleList = new MiddleIndexList<int>();
-	//BlankSpotsList<int>* blankSpotList = new BlankSpotsList<int>();
+	BlankSpotsList<int>* blankSpotList = new BlankSpotsList<int>();
 
 	int item1 = 1;
 	int item2 = 2;
@@ -69,29 +69,29 @@ int main() {
 
 	// Testing Task 3
 
-	//blankSpotList->AddItem(item4);
-	//blankSpotList->AddItem(item1);
-	//blankSpotList->AddItem(item3);
-	//blankSpotList->AddItem(item2);
-	//blankSpotList->AddItem(item5);
+	blankSpotList->AddItem(item4);
+	blankSpotList->AddItem(item1);
+	blankSpotList->AddItem(item3);
+	blankSpotList->AddItem(item2);
+	blankSpotList->AddItem(item5);
 
-	//cout << "Test of Adding: " << endl;
-	//blankSpotList->PrintListPointers();
-	//blankSpotList->PrintListValues();
+	cout << "Test of Adding: " << endl;
+	blankSpotList->PrintListPointers();
+	blankSpotList->PrintListValues();
 
 
-	//blankSpotList->RemoveItem(item2);
-	//blankSpotList->RemoveItem(item5);
+	blankSpotList->RemoveItem(item2);
+	blankSpotList->RemoveItem(item5);
 
-	//cout << "Test of Removing:" << endl;
-	//blankSpotList->PrintListPointers();
-	//blankSpotList->PrintListValues();
+	cout << "Test of Removing:" << endl;
+	blankSpotList->PrintListPointers();
+	blankSpotList->PrintListValues();
 
-	//blankSpotList->MakeEmpty();
+	blankSpotList->MakeEmpty();
 
-	//cout << "Test of Make Empty: " << endl;
-	//blankSpotList->PrintListPointers();
-	//blankSpotList->PrintListValues();
+	cout << "Test of Make Empty: " << endl;
+	blankSpotList->PrintListPointers();
+	blankSpotList->PrintListValues();
 
 	return 0;
 }
