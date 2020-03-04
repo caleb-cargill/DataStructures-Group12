@@ -5,10 +5,11 @@
 
 using namespace std;
 
+void TestBaseList(int item1, int item2, int item3, int item4, int item5);
+void TestMiddleIndexList(int item1, int item2, int item3, int item4, int item5);
+void TestBlankSpotsList(int item1, int item2, int item3, int item4, int item5);
+
 int main() {
-	BaseList<int>* orderedList = new BaseList<int>();
-	MiddleIndexList<int>* middleList = new MiddleIndexList<int>();
-	BlankSpotsList<int>* blankSpotList = new BlankSpotsList<int>();
 
 	int item1 = 1;
 	int item2 = 2;
@@ -16,7 +17,21 @@ int main() {
 	int item4 = 4;
 	int item5 = 5;
 
-	// Testing Task 1
+	// Test task 1
+	TestBaseList(item1, item2, item3, item4, item5);
+
+	// Test task 2
+	TestMiddleIndexList(item1, item2, item3, item4, item5);
+
+	// Test task 3
+	TestBlankSpotsList(item1, item2, item3, item4, item5);
+
+	return 0;
+}
+
+// Testing the BaseList class as an ordered list
+void TestBaseList(int item1, int item2, int item3, int item4, int item5) {
+	BaseList<int>* orderedList = new BaseList<int>();
 
 	orderedList->AddItem(item4);
 	orderedList->AddItem(item1);
@@ -42,8 +57,11 @@ int main() {
 	cout << "Test of Make Empty: " << endl;
 	orderedList->PrintListPointers();
 	orderedList->PrintListValues();
+}
 
-	// Testing Task 2
+// Testing the MiddleIndexList class as an ordered list searching from middle of array
+void TestMiddleIndexList(int item1, int item2, int item3, int item4, int item5) {
+	MiddleIndexList<int>* middleList = new MiddleIndexList<int>();
 
 	middleList->AddItem(item4);
 	middleList->AddItem(item1);
@@ -70,8 +88,11 @@ int main() {
 	cout << "Test of Make Empty: " << endl;
 	middleList->PrintListPointers();
 	middleList->PrintListValues();
+}
 
-	// Testing Task 3
+// Testing the BlankSpotsList class as an ordered list leaving blank spots when applicable
+void TestBlankSpotsList(int item1, int item2, int item3, int item4, int item5) {
+	BlankSpotsList<int>* blankSpotList = new BlankSpotsList<int>();
 
 	blankSpotList->AddItem(item4);
 	blankSpotList->AddItem(item1);
@@ -98,6 +119,5 @@ int main() {
 	cout << "Test of Make Empty: " << endl;
 	blankSpotList->PrintListPointers();
 	blankSpotList->PrintListValues();
-
-	return 0;
+	
 }
