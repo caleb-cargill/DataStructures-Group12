@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="IntBinaryTree.h" />
     <ClInclude Include="ListChar.h" />
     <ClInclude Include="NodeChar.h" />
     <ClInclude Include="QueueOfInts.h" />

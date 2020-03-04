@@ -27,5 +27,8 @@
     <ClInclude Include="ListChar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IntBinaryTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
