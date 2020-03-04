@@ -1,3 +1,4 @@
+
 #pragma once
 #include "BaseList.h"
 #include <iostream>
@@ -19,20 +20,20 @@ public:
 		int itemIndex = 0;
 		bool biggestItem = true;
 		bool replacedNull = false;
-		if (IsFull()) {
-			throw ListOverflow();
+		if (BaseList<T>::IsFull()) {
+			throw BaseList<T>::ListOverflow();
 		}
 
-		if (size == 0) {
-			list[0] = new T(inVal);
-			size++;
+		if (BaseList<T>::size == 0) {
+			BaseList<T>::list[0] = new T(inVal);
+			BaseList<T>::size++;
 			return;
 		}
 
-		for (int i = 0; i < size; i++) {
-			if (i == 0 && *list[i + 1] <= inVal) {
-				if (list[i] == nullptr) {
-					list[i] = inVal;
+		for (int i = 0; i < BaseList<T>::size; i++) {
+			if (i == 0 && BaseList<T>::size > 1  && *BaseList<T>::list[i + 1] <= inVal) {
+				if (BaseList<T>::list[i] == nullptr) {
+					BaseList<T>::list[i] = &inVal;
 					replacedNull = true;
 				}
 				else {
@@ -41,8 +42,8 @@ public:
 				biggestItem = false;
 				break;
 			}
-			else if (list[i] == nullptr && *list[i + 1] >= inVal && *list[i - 1] <= inVal) {
-				list[i] = inVal;
+			else if (BaseList<T>::list[i] == nullptr && *BaseList<T>::list[i + 1] >= inVal && *BaseList<T>::list[i - 1] <= inVal) {
+				BaseList<T>::list[i] = &inVal;
 				replacedNull = true;
 				biggestItem = false;
 				break;
@@ -54,36 +55,37 @@ public:
 		}
 
 		if (biggestItem) {
-			list[size] = new T(inVal);
+			BaseList<T>::list[BaseList<T>::size] = new T(inVal);
 		}
-		else if(!replacedNull) {
-			for (int j = size; j > itemIndex; j--) {
-				list[j] = list[j - 1];
+		else if (!replacedNull) {
+			for (int j = BaseList<T>::size; j > itemIndex; j--) {
+				BaseList<T>::list[j] = BaseList<T>::list[j - 1];
 			}
-			list[itemIndex] = new T(inVal);
+			BaseList<T>::list[itemIndex] = new T(inVal);
 		}
-		size++;
+		BaseList<T>::size++;
 
 	}
 
 	T RemoveItem(T& item) {
 		bool itemfound = false;
-		if (IsEmpty()) {
-			throw ListUnderflow();
+		if (BaseList<T>::IsEmpty()) {
+			throw BaseList<T>::ListUnderflow();
 		}
 
-		for (int i = 0; i < size; i++) {
-			if (item == *list[i]) {
+		for (int i = 0; i < BaseList<T>::size; i++) {
+			if (item == *BaseList<T>::list[i]) {
 				itemfound = true;
-				list[i] = nullptr;
+				delete BaseList<T>::list[i];
+				BaseList<T>::list[i] = nullptr;
 				break;
 			}
 		}
 
 		if (!itemfound) {
-			throw ItemNotFound();
+			throw BaseList<T>::ItemNotFound();
 		}
-		size--;
+		BaseList<T>::size--;
 	}
 
 };
