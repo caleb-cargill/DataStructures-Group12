@@ -31,25 +31,31 @@ public:
 		}
 
 		for (int i = 0; i < BaseList<T>::size; i++) {
-			if (i == 0 && BaseList<T>::size > 1  && *BaseList<T>::list[i + 1] <= inVal) {
+			if (i == 0 && BaseList<T>::size > 1  && *BaseList<T>::list[i + 1] >= inVal) {
 				if (BaseList<T>::list[i] == nullptr) {
 					BaseList<T>::list[i] = &inVal;
 					replacedNull = true;
+					break;
 				}
-				else {
+				else if (*BaseList<T>::list[i] >= inVal) {
 					itemIndex = i;
+					break;
 				}
 				biggestItem = false;
-				break;
+				
 			}
+			/*else if (BaseList<T>::list[i]) {
+
+			}*/
 			else if (BaseList<T>::list[i] == nullptr && *BaseList<T>::list[i + 1] >= inVal && *BaseList<T>::list[i - 1] <= inVal) {
 				BaseList<T>::list[i] = &inVal;
 				replacedNull = true;
 				biggestItem = false;
 				break;
 			}
-			else {
+			else if(*BaseList<T>::list[i] >= inVal){
 				itemIndex = i;
+				biggestItem = false;
 				break;
 			}
 		}
@@ -58,7 +64,7 @@ public:
 			BaseList<T>::list[BaseList<T>::size] = new T(inVal);
 		}
 		else if (!replacedNull) {
-			for (int j = BaseList<T>::size; j > itemIndex; j--) {
+			for (int j = BaseList<T>::size; j > itemIndex - 1; j--) {
 				BaseList<T>::list[j] = BaseList<T>::list[j - 1];
 			}
 			BaseList<T>::list[itemIndex] = new T(inVal);
@@ -73,12 +79,19 @@ public:
 			throw BaseList<T>::ListUnderflow();
 		}
 
-		for (int i = 0; i < BaseList<T>::size; i++) {
-			if (item == *BaseList<T>::list[i]) {
-				itemfound = true;
-				delete BaseList<T>::list[i];
-				BaseList<T>::list[i] = nullptr;
-				break;
+		int s = BaseList<T>::size;
+
+		for (int i = 0; i < s; i++) {
+			if (BaseList<T>::list[i] != nullptr) {
+				if (item == *BaseList<T>::list[i]) {
+					itemfound = true;
+					delete BaseList<T>::list[i];
+					BaseList<T>::list[i] = nullptr;
+					break;
+				}
+			}
+			else {
+				s += 1;
 			}
 		}
 

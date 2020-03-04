@@ -24,6 +24,8 @@ int main() {
 	orderedList->AddItem(item2);
 	orderedList->AddItem(item5);
 
+	cout << "Testing Task 1" << endl << endl;
+
 	cout << "Test of Adding: " << endl;
 	orderedList->PrintListPointers();
 	orderedList->PrintListValues();
@@ -48,6 +50,8 @@ int main() {
 	middleList->AddItem(item3);
 	middleList->AddItem(item2);
 	middleList->AddItem(item5);
+
+	cout << "Testing Task 2" << endl << endl;
 
 	cout << "Test of Adding: " << endl;
 	middleList->PrintListPointers();
@@ -74,6 +78,8 @@ int main() {
 	blankSpotList->AddItem(item3);
 	blankSpotList->AddItem(item2);
 	blankSpotList->AddItem(item5);
+
+	cout << "Testing Task 3" << endl << endl;
 
 	cout << "Test of Adding: " << endl;
 	blankSpotList->PrintListPointers();

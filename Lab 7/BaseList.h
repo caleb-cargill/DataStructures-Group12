@@ -131,8 +131,14 @@ public:
 
 	void PrintListValues() {
 		cout << "Pointer array values" << endl;
-		for (int i = 0; i < size; i++) {
-			cout << *list[i] << " ";
+		int s = size;
+		for (int i = 0; i < s; i++) {
+			if (list[i] != nullptr) {
+				cout << *list[i] << " ";
+			}
+			else {
+				s += 1;
+			}
 		}
 		cout << endl << endl;
 	}
