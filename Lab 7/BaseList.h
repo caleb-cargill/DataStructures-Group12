@@ -8,29 +8,37 @@ using namespace std;
 template <class T> class BaseList
 {
 protected:
-	const static int MAX_SIZE = 25;
-	T* list[MAX_SIZE];
-	int size = 0;
+	const static int MAX_SIZE = 500; // maximum size of the array
+	T* list[MAX_SIZE]; // array of pointers
+	int size = 0; // size of array
+	int compareCount = 0; // number of comparisons made
+	int moveCount = 0; // number of moves made
 
 public:
+	// Default constructor for the class
 	BaseList() {
 		for (int i = 0; i < MAX_SIZE; i++) {
 			list[i] = nullptr;
 		}
 	}
 
+
+	// Destructor for the class, deletes all pointers to prevent memory leaks
 	~BaseList() {
 		MakeEmpty();
 	}
 
+	// overload of the > operator
 	bool operator>(const T& rhs) {
 		return this > rhs;
 	}
 
+	// overload of the < operator
 	bool operator<(const T& rhs) {
 		return this < rhs;
 	}
 
+	// overload of the == operator
 	bool operator==(const T& rhs) {
 		return this == rhs;
 	}
@@ -50,6 +58,7 @@ public:
 		}
 
 		for (int i = 0; i < size; i++) {
+			compareCount++;
 			if (*list[i] >= inVal) {
 				itemIndex = i;
 				biggestItem = false;
@@ -62,6 +71,7 @@ public:
 		}
 		else {
 			for (int j = size; j > itemIndex; j--) {
+				moveCount++;
 				list[j] = list[j - 1];
 			}
 			list[itemIndex] = new T(inVal);
@@ -78,17 +88,20 @@ public:
 			throw ListUnderflow();
 		}
 
+		compareCount++;
 		if (item == *list[size - 1]) {
 			delete list[size - 1];
 			itemfound = true;
 		}
 		else {
 			for (int i = 0; i < size; i++) {
+				compareCount++;
 				if (item == *list[i]) {
 					itemfound = true;
 					itemIndex = i;
 					delete list[itemIndex];
 					for (int j = itemIndex; j < size - 1; j++) {
+						moveCount++;
 						list[j] = list[j + 1];
 					}
 					list[size - 1] = nullptr;
@@ -121,6 +134,7 @@ public:
 		size = 0;
 	}
 
+	// Prints the array of pointers
 	void PrintListPointers() {
 		cout << "Pointer array" << endl;
 		for (int i = 0; i < size; i++) {
@@ -129,6 +143,7 @@ public:
 		cout << endl << endl;
 	}
 
+	// prints the list of values in the array
 	void PrintListValues() {
 		cout << "Pointer array values" << endl;
 		int s = size;
@@ -143,16 +158,29 @@ public:
 		cout << endl << endl;
 	}
 
+	// getter for comparison count
+	int getCompareCount() {
+		return compareCount;
+	}
+
+	// getter for move count
+	int getMoveCount() {
+		return moveCount;
+	}
+
+	// Custom exception for when user tries to overfill the list
 	class ListOverflow : public exception {
 	public:
 		string msg = "The list is full.";
 	};
 
+	// Custom exception for when the user tries to remove from an emppty list
 	class ListUnderflow : public exception {
 	public:
 		string msg = "The list is empty.";
 	};
 
+	// Custom exception for when the requested item cannot be found 
 	class ItemNotFound : public exception {
 	public:
 		string msg = "The item is not in the list.";

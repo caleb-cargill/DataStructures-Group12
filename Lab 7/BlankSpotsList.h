@@ -5,7 +5,7 @@
 
 template <class T> class BlankSpotsList : public BaseList<T> {
 protected:
-	int MAX_SIZE = 25;
+	int MAX_SIZE = 500;
 	int size = 0;
 public:
 
@@ -32,12 +32,14 @@ public:
 
 		for (int i = 0; i < BaseList<T>::size; i++) {
 			if (i == 0 && BaseList<T>::size > 1  && *BaseList<T>::list[i + 1] >= inVal) {
+				BaseList<T>::compareCount++;
 				if (BaseList<T>::list[i] == nullptr) {
 					BaseList<T>::list[i] = &inVal;
 					replacedNull = true;
 					break;
 				}
 				else if (*BaseList<T>::list[i] >= inVal) {
+					BaseList<T>::compareCount++;
 					itemIndex = i;
 					break;
 				}
@@ -48,12 +50,14 @@ public:
 
 			}*/
 			else if (BaseList<T>::list[i] == nullptr && *BaseList<T>::list[i + 1] >= inVal && *BaseList<T>::list[i - 1] <= inVal) {
+				BaseList<T>::compareCount++;
 				BaseList<T>::list[i] = &inVal;
 				replacedNull = true;
 				biggestItem = false;
 				break;
 			}
 			else if(*BaseList<T>::list[i] >= inVal){
+				BaseList<T>::compareCount++;
 				itemIndex = i;
 				biggestItem = false;
 				break;
@@ -65,6 +69,7 @@ public:
 		}
 		else if (!replacedNull) {
 			for (int j = BaseList<T>::size; j > itemIndex - 1; j--) {
+				BaseList<T>::moveCount++;
 				BaseList<T>::list[j] = BaseList<T>::list[j - 1];
 			}
 			BaseList<T>::list[itemIndex] = new T(inVal);
@@ -73,6 +78,7 @@ public:
 
 	}
 
+	// Removes the specified item from the list
 	T RemoveItem(T& item) {
 		bool itemfound = false;
 		if (BaseList<T>::IsEmpty()) {
@@ -83,6 +89,7 @@ public:
 
 		for (int i = 0; i < s; i++) {
 			if (BaseList<T>::list[i] != nullptr) {
+				BaseList<T>::compareCount++;
 				if (item == *BaseList<T>::list[i]) {
 					itemfound = true;
 					delete BaseList<T>::list[i];

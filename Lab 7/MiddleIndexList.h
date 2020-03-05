@@ -7,16 +7,18 @@ template <class T>
 class MiddleIndexList : public BaseList<T>
 {
 protected:
-	int MAX_SIZE = 25;
+	int MAX_SIZE = 500;
 	int size = 0;
 	int lowerIndex = 0;
 	int higherIndex = 0;
 
 public:
+	// Default constructor for the class
 	MiddleIndexList() : BaseList<T>(){
 
 	}
 
+	// Destructor for the class
 	~MiddleIndexList() {
 		BaseList<T>::MakeEmpty();
 	}
@@ -39,17 +41,20 @@ public:
 		else {
 			// If inVal is smaller or equal to the smallest value in the list and the first index in the list is not 0, then add inVal to the beginning of the list
 			if (*BaseList<T>::list[lowerIndex] >= inVal && lowerIndex > 0) {
+				BaseList<T>::compareCount++;
 				BaseList<T>::list[lowerIndex - 1] = new T(inVal);
 				lowerIndex--;
 			}
 			// If inVal is greater than or equal to the biggest value in the list and the last index in the list is not at the furthest right, then add inVal to the end
 			else if (*BaseList<T>::list[higherIndex] <= inVal && higherIndex < BaseList<T>::MAX_SIZE - 1) {
+				BaseList<T>::compareCount++;
 				BaseList<T>::list[higherIndex + 1] = new T(inVal);
 				higherIndex++;
 			}
 			// If inVal is less than the middle value, go left
 			// If left side is at the first index, shift right first
 			else if (inVal < *BaseList<T>::list[BaseList<T>::MAX_SIZE / 2]) {
+				BaseList<T>::compareCount++;
 				if (lowerIndex == 0) {
 					for (int i = higherIndex; i > 0; i--) {
 						BaseList<T>::list[i + 1] = BaseList<T>::list[i];
@@ -59,6 +64,7 @@ public:
 					BaseList<T>::list[0] = nullptr;
 				}
 				for (int i = BaseList<T>::MAX_SIZE / 2 - 1; i > 0; i--) {
+					BaseList<T>::compareCount++;
 					if (inVal >= *BaseList<T>::list[i]) {
 						itemIndex = i;
 						for (int j = lowerIndex - 1; j < itemIndex; j++) {
@@ -73,6 +79,7 @@ public:
 			// If inVal is greater than or equal to the middle value, go right
 			// If right side is at the max index, shift left first
 			else if (inVal >= *BaseList<T>::list[BaseList<T>::MAX_SIZE / 2]) {
+				BaseList<T>::compareCount++;
 				if (higherIndex == BaseList<T>::MAX_SIZE - 1) {
 					for (int i = 0; i < BaseList<T>::MAX_SIZE - 1; i++) {
 						BaseList<T>::list[i] = BaseList<T>::list[i + 1];
@@ -82,9 +89,11 @@ public:
 					BaseList<T>::list[BaseList<T>::MAX_SIZE - 1] = nullptr;
 				}
 				for (int i = BaseList<T>::MAX_SIZE / 2; i < BaseList<T>::MAX_SIZE - 1; i++) {
+					BaseList<T>::compareCount++;
 					if (inVal <= *BaseList<T>::list[i]) {
 						itemIndex = i;
 						for (int j = higherIndex + 1; j > itemIndex; j--) {
+							BaseList<T>::moveCount++;
 							BaseList<T>::list[j] = BaseList<T>::list[j - 1];
 						}
 						BaseList<T>::list[itemIndex] = new T(inVal);
@@ -106,16 +115,19 @@ public:
 		}
 
 		if (item == *BaseList<T>::list[higherIndex]) {
+			BaseList<T>::compareCount++;
 			delete BaseList<T>::list[higherIndex];
 			itemfound = true;
 		}
 		else {
 			for (int i = lowerIndex; i < higherIndex; i++) {
+				BaseList<T>::compareCount++;
 				if (item == *BaseList<T>::list[i]) {
 					itemfound = true;
 					itemIndex = i;
 					delete BaseList<T>::list[itemIndex];
 					for (int j = itemIndex; j < higherIndex; j++) {
+						BaseList<T>::moveCount++;
 						BaseList<T>::list[j] = BaseList<T>::list[j + 1];
 					}
 					BaseList<T>::list[higherIndex] = nullptr;
@@ -138,6 +150,7 @@ public:
 		BaseList<T>::size = 0;
 	}
 
+	// Prints the list of pointers in the list
 	void PrintListPointers() {
 		cout << "Pointer array" << endl;
 		for (int i = lowerIndex; i < lowerIndex + BaseList<T>::size; i++) {
@@ -146,6 +159,7 @@ public:
 		cout << endl << endl;
 	}
 
+	// prints the list of values in the list
 	void PrintListValues() {
 		cout << "Pointer array values" << endl;
 		for (int i = lowerIndex; i < lowerIndex + BaseList<T>::size; i++) {
