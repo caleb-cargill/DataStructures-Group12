@@ -8,11 +8,13 @@ private:
 	LinkedList<T> list;
 	int size = 0;
 public:
+	// Adds item to end of the line
 	void Enqueue(T inVal) {
 		list.Insert(inVal);
 		size++;
 	}
 
+	// Removes first item from the list and returns its data
 	T Dequeue() {
 		if (!isEmpty())
 		{
@@ -23,6 +25,7 @@ public:
 			throw QueueUnderflow();
 	}
 
+	// Returns the data of the first item in line
 	T Peek() {
 		if (!isEmpty())
 			return list.GetHead();

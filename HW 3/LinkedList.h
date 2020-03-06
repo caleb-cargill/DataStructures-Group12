@@ -25,6 +25,7 @@ public:
 		head = nullptr;
 	}
 
+	// Points head to newNode if empty, else puts the new node at the end and has teh previous node point to it
 	void Insert(T inVal) {
 		node<T>* newNode = new node<T>(inVal);
 		if (head == nullptr) {
@@ -39,6 +40,7 @@ public:
 		}
 	}
 
+	// Removes the first item in the list, aka what the head is pointing too and then points the head to the next value if there is one
 	T RemoveFirst() {
 		T retVal = head->data;
 		if (head->next != nullptr) {

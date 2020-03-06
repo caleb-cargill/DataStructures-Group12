@@ -11,6 +11,7 @@ public:
 		name = ' ';
 	}
 
+	// Assigns values to the card based on the name
 	Card(string inValue) {
 		name = inValue;
 		if (name == "A") value = 14;
