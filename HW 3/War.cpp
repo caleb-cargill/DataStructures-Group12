@@ -568,7 +568,7 @@ void addToDecksStart(InitialDeck deck, Deck<Card>& player, Deck<Card>& computer)
 bool getPeek() {
 	char input;
 	cout << "Would you like to peek at the top card in your deck?" << endl;
-	cout << "If you peak, you will have the option to push to or pull from the side pile" << endl << endl;
+	cout << "If you peek, you will have the option to push to or pull from the side pile" << endl << endl;
 	cout << "Enter 'y' for yes, anything else for no" << endl << endl;
 	cout << "Input: ";
 	cin >> input;
