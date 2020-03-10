@@ -18,59 +18,26 @@ private:
 	int currYear;
 	
 public:
-	Item(int sku, string dscrp, double price, string uom, int quant = 0){
-		SKU = sku;
-		description = dscrp;
-		Price = price;
-		UOM = uom;
-		QuantityOH = quant;
-	}
-
-	string GetPartInfo(){
-		string retstr = to_string(SKU) + description;
-		return retstr;
-	}
-
-	double GetPrice(){
-		return Price;
-	}
-
-	bool Available(int day, int month, int year){
-		if (QuantityOH > 0){
-			return true;
-		}
-		else{
-			//handle input
-			if (year == currYear && month == currMonth){
-				return day - currDay > LeadTime;
-			}
-			else if (year == currYear && month > currMonth){
-				return true;
-			}
-			else if (year > currYear){
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-	}
-
-	bool InStock(){
-		return QuantityOH > 0;
-	}
-
-	bool operator==(const Item& rhs){
+	bool operator==(const Item& rhs) {
 		return this->SKU == rhs.SKU;
 	}
 
-	bool operator<(const Item& rhs){
+	bool operator<(const Item& rhs) {
 		return this->SKU < rhs.SKU;
 	}
 
-	bool operator>(const Item& rhs){
+	bool operator>(const Item& rhs) {
 		return this->SKU > rhs.SKU;
 	}
 
+	Item(int sku, string dscrp, double price, string uom, int quant = 0);
+
+	string GetPartInfo();
+
+	double GetPrice();
+
+	bool Available(int day, int month, int year);
+
+	bool InStock();
 
 };

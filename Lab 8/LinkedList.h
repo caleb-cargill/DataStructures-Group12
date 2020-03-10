@@ -159,8 +159,8 @@ public:
 
 		if (temp->next == nullptr)
 		{
-			// value is not in the list, return null
-			return NULL;
+			// value is not in the list
+			throw NotInList();
 		}
 
 		// Store the node to be deleted
@@ -236,7 +236,7 @@ public:
 	// Gets the next item in the list
 	T SeeNext() {
 		if (curr->next == nullptr) {
-			//throw OutOfBounds;
+			throw OutOfBounds();
 		}
 		else {
 			curr = curr->next;
@@ -246,10 +246,12 @@ public:
 
 	// Gets the previous item in the list
 	T SeePrev() {
-		if (curr->prev == nullptr) {}
-		//throw OutOfBounds;
-		else
+		if (curr->prev == nullptr) {
+			throw OutOfBounds();
+		}
+		else {
 			curr = curr->prev;
+		}
 
 		return curr->value;
 	}
@@ -259,12 +261,13 @@ public:
 		T retVal;
 		ListNode* temp = head;
 		if (IsEmpty() || index > size) {
-			//throw OutOfBounds;
+			throw OutOfBounds();
 		}
 		for (int i = 0; i < index; i++) {
 			temp = temp->next;
 		}
 		retVal = temp->value;
+		curr = temp;
 		return retVal;
 	}
 
@@ -275,14 +278,28 @@ public:
 
 	void PrintList() {
 		ListNode* temp = head;
-		for (int i = 0; i < size; i++) {
-			cout << temp->value << " ";
-			temp = temp->next;
+		if (size == 0) {
+			cout << endl;
 		}
-		cout << endl;
+		else if (size == 1) {
+			cout << "|" << temp->value << "|" << endl;
+		}
+		else {
+			for (int i = 0; i < size - 1; i++) {
+				cout << "|" << temp->value << "| -> ";
+				temp = temp->next;
+			}
+			cout << "|" << temp->value << "|" << endl;
+		}
 	}
 
-	//class OutOfBounds : public exception {
+	class OutOfBounds : public exception {
+	public:
+		string Message = "The operation is out of range of the list";
+	};
 
-	//};
+	class NotInList : public exception {
+	public:
+		string Message = "The item is not in the list";
+	};
 };

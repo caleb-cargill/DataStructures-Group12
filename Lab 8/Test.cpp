@@ -3,28 +3,64 @@
 
 using namespace std;
 
+char getMenuChoice();
+
 int main() {
-	Placeholder<int> list;
+	char menuInput = getMenuChoice();
 
-	cout << "Add 5" << endl;
-	list.AddItem(new int(5));
-	list.PrintList();
-	cout << "Add 6" << endl;
-	list.AddItem(new int(6));
-	list.PrintList();
-	cout << "Add 2" << endl;
-	list.AddItem(new int(2));
-	list.PrintList();
-	
-	cout << "Remove 5" << endl;
-	int x = list.GetItem(new int (5));
-	list.PrintList();
+	// Runs for duration of the program
+	while (true) {
+		switch (menuInput) {
+		case '1': { // AddItem()
 
-	int size = list.Size();
+		}
+		case '2': { // GetItem()
 
-	cout << "Get Next: " << list.SeeNext() << endl;
+		}
+		case '3': { // IsInList()
 
-	cout << "Get Prev: " << list.SeePrev() << endl;
+		}
+		case '4': { // IsEmpty()
+
+		}
+		case '5': { // Size()
+
+		}
+		case '6': { // SeeNext()
+
+		}
+		case '7': { // SeePrev()
+
+		}
+		case '8': { // SeeAt()
+
+		}
+		case '9': { // Reset()
+
+		}
+		default: { // Invalid Input
+			cout << "Invalid choice" << endl << endl;
+			menuInput = getMenuChoice();
+		}
+		}
+	}
 
 	return 0;
+}
+
+char getMenuChoice() {
+	char input;
+	cout << "Linked List Menu:" << endl << endl;
+	cout << "1: AddItem()" << endl;
+	cout << "2: GetItem()" << endl;
+	cout << "3: IsInList()" << endl;
+	cout << "4: IsEmpty()" << endl;
+	cout << "5: Size()" << endl;
+	cout << "6: SeeNext()" << endl;
+	cout << "7: SeePrev()" << endl;
+	cout << "8: SeeAt()" << endl;
+	cout << "9: Reset()" << endl << endl;
+	cout << "Input: ";
+	cin >> input;
+	return input;
 }
