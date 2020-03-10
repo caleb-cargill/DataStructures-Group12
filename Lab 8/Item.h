@@ -30,6 +30,8 @@ public:
 		return this->SKU > rhs.SKU;
 	}
 
+	Item();
+
 	Item(int sku, string dscrp, double price, string uom, int quant = 0);
 
 	string GetPartInfo();

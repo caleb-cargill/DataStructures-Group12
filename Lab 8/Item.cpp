@@ -1,5 +1,13 @@
 #include "Item.h"
 
+Item::Item() {
+	SKU = 0;
+	description = "Default Description";
+	Price = 0.0;
+	UOM = "Default Unit of Measurement";
+	QuantityOH = 0;
+}
+
 Item::Item(int sku, string dscrp, double price, string uom, int quant) {
 	SKU = sku;
 	description = dscrp;
@@ -9,7 +17,7 @@ Item::Item(int sku, string dscrp, double price, string uom, int quant) {
 }
 
 string Item::GetPartInfo() {
-	string retstr = to_string(SKU) + description;
+	string retstr = "SKU: " + to_string(SKU) + " Description: " + description;
 	return retstr;
 }
 

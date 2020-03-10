@@ -10,8 +10,14 @@ private:
 	// Struct to act as a node for the list
 	struct ListNode {
 		T value;					// The value in this node
-		struct ListNode* next;		// To point to the next node
-		struct ListNode* prev;		// To point at the previous node
+		ListNode* next;		// To point to the next node
+		ListNode* prev;		// To point at the previous node
+
+		ListNode(T *inVal) {
+			value = *inVal;
+			next = nullptr;
+			prev = nullptr;
+		}
 	};
 
 	ListNode* head; //list head pointer
@@ -60,9 +66,7 @@ public:
 		size++;
 
 		//Creates a node and gives it the input value
-		ListNode* newNode = new ListNode;
-		newNode->value = *inVal;
-		newNode->next = nullptr;
+		ListNode* newNode = new ListNode(inVal);
 
 		// If the list is empty, go ahead and add the item as the head and return
 		if (head == nullptr)
@@ -105,7 +109,7 @@ public:
 		if (head == nullptr)
 		{
 			// Item is not in the list because the list is empty return NULL
-			return NULL;
+			throw NotInList();
 		}
 
 		// Declare a temp node and a return value
@@ -153,7 +157,7 @@ public:
 		temp = head;
 
 		// Iterate through each item in list until we reach the end or the key is found
-		while (temp->next != nullptr && temp->next->value != *key) {
+		while (temp->next != nullptr && !(temp->next->value == *key)) {
 			temp = temp->next;
 		}
 
@@ -282,14 +286,14 @@ public:
 			cout << endl;
 		}
 		else if (size == 1) {
-			cout << "|" << temp->value << "|" << endl;
+			cout << "|" << temp->value.GetPartInfo() << "|" << endl;
 		}
 		else {
 			for (int i = 0; i < size - 1; i++) {
-				cout << "|" << temp->value << "| -> ";
+				cout << "|" << temp->value.GetPartInfo() << "| -> ";
 				temp = temp->next;
 			}
-			cout << "|" << temp->value << "|" << endl;
+			cout << "|" << temp->value.GetPartInfo() << "|" << endl;
 		}
 	}
 

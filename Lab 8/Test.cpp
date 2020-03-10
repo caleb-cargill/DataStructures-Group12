@@ -1,4 +1,5 @@
 #include "LinkedList.h"
+#include "Item.h"
 #include <iostream>
 
 using namespace std;
@@ -6,13 +7,42 @@ using namespace std;
 char getMenuChoice();
 
 int main() {
-	char menuInput = getMenuChoice();
+	Placeholder<Item> list;
+
+	char menuInput = ' ';
+	char QOHinput = ' ';
+	int SKU = 0;
+	string description = "";
+	double price = 0.0;
+	string UOM = "";
+	int quantityOnHand = 0;
 
 	// Runs for duration of the program
 	while (true) {
+		menuInput = getMenuChoice();
+
 		switch (menuInput) {
 		case '1': { // AddItem()
-
+			cout << "Enter a stock keeping number: ";
+			cin >> SKU;
+			cout << "Enter a description: ";
+			cin >> description;
+			cout << "Enter a price: $";
+			cin >> price;
+			cout << "Enter a unit of measurement: ";
+			cin >> UOM;
+			cout << "Would you like to enter a quantity on hand value? (y/n): ";
+			cin >> QOHinput;
+			if (QOHinput == 'y') {
+				cout << "Enter quantity on hand value: ";
+				cin >> quantityOnHand;
+				list.AddItem(new Item(SKU, description, price, UOM, quantityOnHand));
+			}
+			else {
+				list.AddItem(new Item(SKU, description, price, UOM));
+			}
+			cout << endl;
+			list.PrintList();
 		}
 		case '2': { // GetItem()
 
@@ -37,10 +67,6 @@ int main() {
 		}
 		case '9': { // Reset()
 
-		}
-		default: { // Invalid Input
-			cout << "Invalid choice" << endl << endl;
-			menuInput = getMenuChoice();
 		}
 		}
 	}
