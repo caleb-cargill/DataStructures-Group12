@@ -214,7 +214,7 @@ public:
 		temp = head;
 
 		// Iterate through each item in list until we reach the end or the key is found
-		while (temp->next != nullptr && temp->next->value != *item) {
+		while (temp->next != nullptr && !(temp->next->value == *item)) {
 			temp = temp->next;
 		}
 
@@ -239,25 +239,38 @@ public:
 
 	// Gets the next item in the list
 	T SeeNext() {
-		if (curr->next == nullptr) {
+		T retVal;
+		int endCount = 0;
+		if (IsEmpty()) {
 			throw OutOfBounds();
 		}
+		else if (curr == nullptr) {
+			return retVal;
+		}
+		else if (curr->next == nullptr) {
+			if ()
+		}
 		else {
+			retVal = curr->value;
 			curr = curr->next;
 		}
-		return curr->value;
+		return retVal;
 	}
 
 	// Gets the previous item in the list
 	T SeePrev() {
-		if (curr->prev == nullptr) {
+		T retVal;
+		if (IsEmpty()) {
 			throw OutOfBounds();
 		}
+		else if (curr == nullptr) {
+			return retVal;
+		}
 		else {
+			retVal = curr->value;
 			curr = curr->prev;
 		}
-
-		return curr->value;
+		return retVal;
 	}
 
 	// Gets the item at the specified index

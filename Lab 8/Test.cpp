@@ -16,10 +16,16 @@ int main() {
 	double price = 0.0;
 	string UOM = "";
 	int quantityOnHand = 0;
+	int listIndex = 0;
 
 	// Runs for duration of the program
 	while (true) {
+		cout << "List: ";
+		list.PrintList();
+		cout << endl;
+
 		menuInput = getMenuChoice();
+		system("CLS");
 
 		switch (menuInput) {
 		case '1': { // AddItem()
@@ -33,6 +39,7 @@ int main() {
 			cin >> UOM;
 			cout << "Would you like to enter a quantity on hand value? (y/n): ";
 			cin >> QOHinput;
+			cout << endl;
 			if (QOHinput == 'y') {
 				cout << "Enter quantity on hand value: ";
 				cin >> quantityOnHand;
@@ -42,31 +49,81 @@ int main() {
 				list.AddItem(new Item(SKU, description, price, UOM));
 			}
 			cout << endl;
-			list.PrintList();
+			break;
 		}
 		case '2': { // GetItem()
-
+			cout << "Enter a stock keeping number: ";
+			cin >> SKU;
+			cout << endl;
+			try {
+				list.GetItem(new Item(SKU, "", 0.0, ""));
+			}
+			catch (Placeholder<Item>::NotInList& dne) {
+				cout << dne.Message << endl << endl;
+			}
+			break;
 		}
 		case '3': { // IsInList()
-
+			cout << "Enter a stock keeping number: ";
+			cin >> SKU;
+			cout << endl;
+			if (list.IsInList(new Item(SKU, "", 0.0, ""))) {
+				cout << "IsInList = True" << endl << endl;
+			}
+			else {
+				cout << "IsInList = False" << endl << endl;
+			}
+			break;
 		}
 		case '4': { // IsEmpty()
-
+			if (list.IsEmpty()) {
+				cout << "IsEmpty = True" << endl << endl;
+			}
+			else {
+				cout << "IsEmpty = False" << endl << endl;
+			}
+			break;
 		}
 		case '5': { // Size()
-
+			cout << "Size: " << list.Size() << endl << endl;
+			break;
 		}
 		case '6': { // SeeNext()
-
+			try {
+				cout << "Next: " << list.SeeNext().GetPartInfo() << endl << endl;
+			}
+			catch (Placeholder<Item>::OutOfBounds& ex) {
+				cout << ex.Message << endl << endl;
+			}
+			break;
 		}
 		case '7': { // SeePrev()
-
+			try {
+				cout << "Prev: " << list.SeePrev().GetPartInfo() << endl << endl;
+			}
+			catch (Placeholder<Item>::OutOfBounds& ex) {
+				cout << ex.Message << endl << endl;
+			}
+			break;
 		}
 		case '8': { // SeeAt()
-
+			cout << "Which index would you like to look at: ";
+			cin >> listIndex;
+			try {
+				cout << "Item " << listIndex << ": " << list.SeeAt(listIndex).GetPartInfo() << endl << endl;
+			}
+			catch (Placeholder<Item>::OutOfBounds& ex) {
+				cout << ex.Message << endl << endl;
+			}
+			break;
 		}
 		case '9': { // Reset()
-
+			cout << "The list curr pointer has been set to the beginning" << endl << endl;
+			break;
+		}
+		default: {
+			cout << "Not a valid input. Try again" << endl << endl;
+			break;
 		}
 		}
 	}
