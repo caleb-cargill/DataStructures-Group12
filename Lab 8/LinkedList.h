@@ -240,19 +240,18 @@ public:
 	// Gets the next item in the list
 	T SeeNext() {
 		T retVal;
-		int endCount = 0;
 		if (IsEmpty()) {
 			throw OutOfBounds();
 		}
 		else if (curr == nullptr) {
 			return retVal;
 		}
-		else if (curr->next == nullptr) {
-			if ()
+		else if (curr->next != nullptr) {
+			retVal = curr->value;
+			curr = curr->next;
 		}
 		else {
 			retVal = curr->value;
-			curr = curr->next;
 		}
 		return retVal;
 	}
@@ -266,9 +265,12 @@ public:
 		else if (curr == nullptr) {
 			return retVal;
 		}
-		else {
+		else if (curr->prev != nullptr) {
 			retVal = curr->value;
 			curr = curr->prev;
+		}
+		else {
+			retVal = curr->value;
 		}
 		return retVal;
 	}
@@ -277,7 +279,7 @@ public:
 	T SeeAt(int index) {
 		T retVal;
 		ListNode* temp = head;
-		if (IsEmpty() || index > size) {
+		if (IsEmpty() || index >= size) {
 			throw OutOfBounds();
 		}
 		for (int i = 0; i < index; i++) {

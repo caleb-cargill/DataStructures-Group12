@@ -110,7 +110,7 @@ int main() {
 			cout << "Which index would you like to look at: ";
 			cin >> listIndex;
 			try {
-				cout << "Item " << listIndex << ": " << list.SeeAt(listIndex).GetPartInfo() << endl << endl;
+				cout << "Item " << listIndex << ": " << list.SeeAt(listIndex-1).GetPartInfo() << endl << endl;
 			}
 			catch (Placeholder<Item>::OutOfBounds& ex) {
 				cout << ex.Message << endl << endl;
@@ -119,6 +119,7 @@ int main() {
 		}
 		case '9': { // Reset()
 			cout << "The list curr pointer has been set to the beginning" << endl << endl;
+			list.Reset();
 			break;
 		}
 		default: {

@@ -17,7 +17,7 @@ Item::Item(int sku, string dscrp, double price, string uom, int quant) {
 }
 
 string Item::GetPartInfo() {
-	string retstr = "SKU: " + to_string(SKU) + " Description: " + description;
+	string retstr = "SKU: " + to_string(SKU) + ", Description: " + description;
 	return retstr;
 }
 
