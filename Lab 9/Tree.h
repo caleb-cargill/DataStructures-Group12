@@ -1,6 +1,7 @@
 #pragma once
 #include <exception>
 #include <iostream>
+#include <cstdlib>
 
 using namespace std;
 
@@ -12,11 +13,13 @@ private:
 		T data;
 		Node* left;
 		Node* right;
+		Node* parent;
 
 		Node(T val) {
 			data = val;
 			left = nullptr;
 			right = nullptr;
+			parent = nullptr;
 		}
 	};
 	
@@ -30,7 +33,8 @@ public:
 	}
 
 	~Tree() {
-		// Destructor - make sure there are no leaks
+		EmptyTree(root);
+		root = nullptr;
 	}
 
 	// Inserts a new node into the tree with the selected value
@@ -41,7 +45,9 @@ public:
 		if (root == nullptr) {
 			root = newNode;
 			nodeCount++;
-			PrintTree(root);
+			return;
+		}
+		if (Find(value) != nullptr) {
 			return;
 		}
 		Node* curr = root;
@@ -55,18 +61,52 @@ public:
 		}
 		if (value < curr->data) {
 			curr->left = newNode;
+			newNode->parent = curr;
 		}
 		else {
 			curr->right = newNode;
+			newNode->parent = curr;
 		}
 		nodeCount++;
-		PrintTree(root);
+
+		// Balancing section
+
+		if (GetHeight(root) > 2) {
+			BalanceTree(newNode);
+		}
+	}
+
+	// Starts at a node and traverses up through its parents to check if it needs balancing
+	// If so, it will balance appropriately
+	void BalanceTree(Node* curr) {
+		Node* grandparent = nullptr;
+		Node* parent = nullptr;
+		if (curr == nullptr) {
+			return;
+		}
+		if (curr->parent != nullptr) {
+			parent = curr->parent;
+		}
+		if (parent != nullptr && curr->parent->parent != nullptr) {
+			grandparent = curr->parent->parent;
+		}
+		if (parent != nullptr && (abs(GetLeftHeight(parent) - GetRightHeight(parent))) >= 2) {
+			if (curr->data > curr->parent->data) {
+				RotateRight(grandparent, parent);
+			}
+			else {
+				RotateLeft(grandparent, parent);
+			}
+		}
+		else {
+			BalanceTree(curr->parent);
+		}
 	}
 
 	// Returns a pointer to the node with the desired value
-	// Throws an exception if the value is not found in the tree
-	T* Find(T key) {
-		if (root->data == key) {
+	// Returns nullptr if the value is not found in the tree
+	Node* Find(T key) {
+		if (root != nullptr && root->data == key) {
 			return root;
 		}
 		Node* temp = root;
@@ -77,7 +117,9 @@ public:
 		if (temp->data == key) {
 			return temp;
 		}
-		throw ItemNotFound;
+		else {
+			return nullptr;
+		}
 	}
 
 	// Returns the number of nodes in the tree
@@ -85,19 +127,57 @@ public:
 		return nodeCount;
 	}
 
-	// Returns a pointer to an array of the nodes in order from smallest to largest
-	T* GetAllAscending() {
-		
+	// Displays all the values of a subtree in ascending order
+	void GetAllAscending(Node* curr) {
+		if (curr == nullptr) {
+			return;
+		}
+		GetAllAscending(curr->left);
+		cout << curr->data << " ";
+		GetAllAscending(curr->right);
 	}
 
-	// Returns a pointer to an array of the nodes in order from largest to smallest
-	T* GetAllDescending() {
-
+	// Displays all the values in the tree in ascending order
+	void GetAllAscendingPrint() {
+		if (root != nullptr) {
+			GetAllAscending(root);
+		}
 	}
 
-	// Removes all nodes from the tree
-	void EmptyTree() {
+	// Displays all the values of a subtree in descending order
+	void GetAllDescending(Node* curr) {
+		if (curr == nullptr) {
+			return;
+		}
+		GetAllDescending(curr->right);
+		cout << curr->data << " ";
+		GetAllDescending(curr->left);
+	}
 
+	// Displays all the values in the tree in descending order
+	void GetAllDescendingPrint() {
+		if (root != nullptr) {
+			GetAllDescending(root);
+		}
+	}
+
+	// Removes all nodes from a subtree
+	void EmptyTree(Node* curr) {
+		if (curr == nullptr) {
+			return;
+		}
+		EmptyTree(curr->left);
+		EmptyTree(curr->right);
+		delete curr;
+		nodeCount--;
+	}
+
+	// Removes all nodes from the whole tree
+	void Empty() {
+		if (root != nullptr) {
+			EmptyTree(root);
+		}
+		root = nullptr;
 	}
 
 	// Returns the node from the tree with the selected value
@@ -107,7 +187,7 @@ public:
 	T Remove(T key) {
 		Node* temp = root;
 		// While temp is not the parent of the key node
-		while ((temp->left != nullptr && key < temp->data) || (temp->right != nullptr & key > temp->data)) {
+		while (((temp->left != nullptr) && (key < temp->data)) || ((temp->right != nullptr) & (key > temp->data))) {
 			if (key < temp->data && temp->left->data != key) temp = temp->left;
 			else if (key > temp->data&& temp->right->data != key) temp = temp->right;
 			else break;
@@ -132,13 +212,18 @@ public:
 				delNode->right = temp->left->right;
 				delete temp->left;
 				temp->left = delNode;
+				delNode->left->parent = delNode;
+				delNode->right->parent = delNode;
+				delNode->parent = temp;
 			}
 			else { // Removing node with 1 child
 				if (delNode->left != nullptr) { // Child on left
 					temp->left = delNode->left;
+					temp->left->parent = temp;
 				}
 				else { // Child on right
 					temp->left = delNode->right;
+					temp->left->parent = temp;
 				}
 				delete delNode;
 			}
@@ -161,32 +246,46 @@ public:
 				delNode->right = temp->right->right;
 				delete temp->right;
 				temp->right = delNode;
+				delNode->left->parent = delNode;
+				delNode->right->parent = delNode;
+				delNode->parent = temp;
 			}
 			else { // Removing node with 1 child
 				if (delNode->left != nullptr) { // Child on left
 					temp->right = delNode->left;
+					temp->right->parent = temp;
 				}
 				else { // Child on right
 					temp->right = delNode->right;
+					temp->right->parent = temp;
 				}
 				delete delNode;
 			}
 		}
-		else {
-			//throw ItemNotFound;
-		}
-		PrintTree(root);
 		nodeCount--;
+
+		// Balancing section
+		Node* tempLeft = temp;
+		Node* tempRight = temp;
+		while (tempLeft->left != nullptr) {
+			tempLeft = tempLeft->left;
+		}
+		while (tempRight->right != nullptr) {
+			tempRight = tempRight->right;
+		}
+		BalanceTree(tempLeft); // Checks to see if the left of temp needs to be balanced
+		BalanceTree(tempRight); // Checks to see if the right of temp needs to be balanced
+
 		return retVal;
 	}
 
-	// Prints contents of the tree for testing purposes
+	// Prints contents of a subtree for testing purposes
 	void PrintTree(Node* curr) {
 		if (curr == nullptr) {
 			return;
 		}
 		PrintTree(curr->left);
-		// node (left, right), node (left, right), ......
+		// node (left, right), node (left, right), ...... with nodes in ascending order
 		if (curr->left == nullptr && curr->right == nullptr) {
 			cout << curr->data << " ( , ) | ";
 		}
@@ -197,34 +296,41 @@ public:
 			cout << curr->data << " (" << curr->left->data << ", ) | ";
 		}
 		else {
-			cout << curr->data << " (" << curr->left->data << ", " << curr->right->data << ") | "; // node (left, right), node (left, right), ......
+			cout << curr->data << " (" << curr->left->data << ", " << curr->right->data << ") | "; 
 		} 
 		PrintTree(curr->right);		
 	}
 
-	// Rotates right around a pivot
-	void RotateRight(Node* grandparent, Node* parent) { 
-		Node* pivot = parent->right;
+	// Prints the whole tree for testing purposes
+	void Print() {
+		if (root != nullptr) {
+			PrintTree(root);
+		}
+	}
+
+	// Rotates left around a pivot
+	void RotateLeft(Node* grandparent, Node* parent) { 
+		Node* pivot = parent->left;
 		if (grandparent == nullptr) { // No grandparent
 			root = pivot;
 			parent->left = pivot->right;
 			pivot->right = parent;
 		}
 		else if (grandparent->data > pivot->data) { // Grandparent on the right
-			grandparent->right = pivot;
+			grandparent->left = pivot;
 			parent->left = pivot->right;
 			pivot->right = parent;
 		}
 		else if (grandparent->data < pivot->data) { // Grandparent on the left
-			grandparent->left = pivot;
+			grandparent->right = pivot;
 			parent->left = pivot->right;
 			pivot->right = parent;
 		}
 	}
 
-	// Rotates left around a pivot
-	void RotateLeft(Node* grandparent, Node* parent) {
-		Node* pivot = parent->left;
+	// Rotates right around a pivot
+	void RotateRight(Node* grandparent, Node* parent) {
+		Node* pivot = parent->right;
 		if (grandparent == nullptr) { // No grandparent
 			root = pivot;
 			parent->right = pivot->left;
@@ -252,14 +358,15 @@ public:
 		return 1 + lheight;
 	}
 
-	class ItemInTree : public exception {
-	public:
-		string Message = "The item is already in the tree";
-	};
+	// Returns the left height of a node
+	int GetLeftHeight(Node* temp) {
+		if (temp->left == nullptr) return 0;
+		return GetHeight(temp->left);
+	}
 
-	class ItemNotFound : public exception {
-	public:
-		string Message = "The item is not in the tree";
-	};
-
+	// Returns the right height of a node
+	int GetRightHeight(Node* temp) {
+		if (temp->right == nullptr) return 0;
+		return GetHeight(temp->right);
+	}
 };
