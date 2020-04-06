@@ -71,9 +71,7 @@ public:
 
 		// Balancing section
 
-		if (GetHeight(root) > 2) {
-			BalanceTree(newNode);
-		}
+		BalanceTree(newNode);
 	}
 
 	// Starts at a node and traverses up through its parents to check if it needs balancing
@@ -84,14 +82,17 @@ public:
 		if (curr == nullptr) {
 			return;
 		}
-		if (curr->parent != nullptr) {
-			parent = curr->parent;
+		if (curr->parent->parent != nullptr) {
+			parent = curr->parent->parent;
 		}
-		if (parent != nullptr && curr->parent->parent != nullptr) {
-			grandparent = curr->parent->parent;
+		else {
+			return;
 		}
-		if (parent != nullptr && (abs(GetLeftHeight(parent) - GetRightHeight(parent))) >= 2) {
-			if (curr->data > curr->parent->data) {
+		if (curr->parent->parent->parent != nullptr) {
+			grandparent = curr->parent->parent->parent;
+		}
+		if (abs(GetLeftHeight(parent) - GetRightHeight(parent)) >= 2) {
+			if (curr->data > parent->data) {
 				RotateRight(grandparent, parent);
 			}
 			else {
@@ -106,6 +107,9 @@ public:
 	// Returns a pointer to the node with the desired value
 	// Returns nullptr if the value is not found in the tree
 	Node* Find(T key) {
+		if (root == nullptr) {
+			return nullptr;
+		}
 		if (root != nullptr && root->data == key) {
 			return root;
 		}
@@ -133,7 +137,7 @@ public:
 			return;
 		}
 		GetAllAscending(curr->left);
-		cout << curr->data << " ";
+		cout << curr->data << endl;
 		GetAllAscending(curr->right);
 	}
 
@@ -150,7 +154,7 @@ public:
 			return;
 		}
 		GetAllDescending(curr->right);
-		cout << curr->data << " ";
+		cout << curr->data << endl;
 		GetAllDescending(curr->left);
 	}
 
@@ -311,40 +315,90 @@ public:
 	// Rotates left around a pivot
 	void RotateLeft(Node* grandparent, Node* parent) { 
 		Node* pivot = parent->left;
-		if (grandparent == nullptr) { // No grandparent
-			root = pivot;
-			parent->left = pivot->right;
-			pivot->right = parent;
+		if (pivot->right != nullptr && pivot->left == nullptr) { // Covers the case when the pivot has to change (For example, if you inserted 5, 3, 4 then 4 would have to be the pivot instead of the 3)
+			if (grandparent == nullptr) { // No grandparent
+				root = pivot->right;
+				pivot->right->parent = nullptr;
+			}
+			else if (grandparent->data > pivot->data) { // Grandparent on the right
+				grandparent->left = pivot->right;
+				pivot->right->parent = grandparent;
+			}
+			else if (grandparent->data < pivot->data) { // Grandparent on the left
+				grandparent->right = pivot->right;
+				pivot->right->parent = grandparent;
+			}
+			pivot->right->right = parent;
+			parent->parent = pivot->right;
+			pivot->right->left = pivot;
+			pivot->parent = pivot->right;
+			pivot->right = nullptr;
+			parent->left = nullptr;
 		}
-		else if (grandparent->data > pivot->data) { // Grandparent on the right
-			grandparent->left = pivot;
+		else { // All other cases
+			if (grandparent == nullptr) { // No grandparent
+				root = pivot;
+				pivot->parent = nullptr;
+			}
+			else if (grandparent->data > pivot->data) { // Grandparent on the right
+				grandparent->left = pivot;
+				pivot->parent = grandparent;
+			}
+			else if (grandparent->data < pivot->data) { // Grandparent on the left
+				grandparent->right = pivot;
+				pivot->parent = grandparent;
+			}
 			parent->left = pivot->right;
+			if (pivot->right != nullptr) {
+				pivot->right->parent = parent;
+			}
 			pivot->right = parent;
-		}
-		else if (grandparent->data < pivot->data) { // Grandparent on the left
-			grandparent->right = pivot;
-			parent->left = pivot->right;
-			pivot->right = parent;
+			parent->parent = pivot;
 		}
 	}
 
 	// Rotates right around a pivot
 	void RotateRight(Node* grandparent, Node* parent) {
 		Node* pivot = parent->right;
-		if (grandparent == nullptr) { // No grandparent
-			root = pivot;
-			parent->right = pivot->left;
-			pivot->left = parent;
+		if (pivot->left != nullptr && pivot->right == nullptr) { // Covers the case when the pivot has to change (For example, if you inserted 5, 3, 4 then 4 would have to be the pivot instead of the 3)
+			if (grandparent == nullptr) { // No grandparent
+				root = pivot->left;
+				pivot->left->parent = nullptr;
+			}
+			else if (grandparent->data > pivot->data) { // Grandparent on the right
+				grandparent->left = pivot->left;
+				pivot->left->parent = grandparent;
+			}
+			else if (grandparent->data < pivot->data) { // Grandparent on the left
+				grandparent->right = pivot->left;
+				pivot->left->parent = grandparent;
+			}
+			pivot->left->left = parent;
+			parent->parent = pivot->left;
+			pivot->left->right = pivot;
+			pivot->parent = pivot->left;
+			pivot->left = nullptr;
+			parent->right = nullptr;
 		}
-		else if (grandparent->data > pivot->data) { // Grandparent on the right
-			grandparent->left = pivot;
+		else { // All other cases
+			if (grandparent == nullptr) { // No grandparent
+				root = pivot;
+				pivot->parent = nullptr;
+			}
+			else if (grandparent->data > pivot->data) { // Grandparent on the right
+				grandparent->left = pivot;
+				pivot->parent = grandparent;
+			}
+			else if (grandparent->data < pivot->data) { // Grandparent on the left
+				grandparent->right = pivot;
+				pivot->parent = grandparent;
+			}
 			parent->right = pivot->left;
+			if (pivot->left != nullptr) {
+				pivot->left->parent = parent;
+			}
 			pivot->left = parent;
-		}
-		else if (grandparent->data < pivot->data) { // Grandparent on the left
-			grandparent->right = pivot;
-			parent->right = pivot->left;
-			pivot->left = parent;
+			parent->parent = pivot;
 		}
 
 	}
