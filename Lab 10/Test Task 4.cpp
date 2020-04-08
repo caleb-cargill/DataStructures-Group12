@@ -18,7 +18,7 @@
 //	int quantityOnHand = 0;
 //	int listIndex = 0;
 //
-//	// Runs for duration of the program
+//	 Runs for duration of the program
 //	while (true) {
 //		cout << "Chained Hash Table: ";
 //		table.Print();

@@ -11,6 +11,7 @@ int main() {
 	ChainedHashTable<Item> chainedHashTable;
 	HashTable<Item> linearHashTable;
 
+	// Randomly seeds rand()
 	srand(time(0));
 
 	// Create an array for the randomly generated SKU values
@@ -21,7 +22,7 @@ int main() {
 	int chainedHashComparisons = 0;
 	int linearHashComparisons = 0;
 	
-	// Add items into the two tables
+	// Add items into the two tables and calls GetItem() on the added items
 	for (int i = 0; i < arraySize; i++) {
 		chainedHashTable.AddItem(new Item(SKUvalues[i], "", 0.0, ""));
 		chainedHashTable.GetItem(new Item(SKUvalues[i], "", 0.0, ""));
@@ -35,6 +36,7 @@ int main() {
 	return 0;
 }
 
+// Adds randomly generated ints to arr - generates SKU values
 void AddSKUs(int arr[], int size) {
 	for (int i = 0; i < size; i++) {
 		arr[i] = (int)rand();
