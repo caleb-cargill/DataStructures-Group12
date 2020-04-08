@@ -6,10 +6,11 @@ using namespace std;
 
 template <class T>
 class HashTable {
-private:
-	const static int arraySize = 5;
+protected:
+	const static int arraySize = 100;
 	T* table[arraySize];
 	int itemCount = 0;
+	int comparisonCount = 0;
 
 	int Hash(string input) {
 		int hashValue = 0;
@@ -79,12 +80,14 @@ public:
 	T* GetItem(T* item) {
 		int hashIndex = Hash(string(*item));
 		if (table[hashIndex] != nullptr && *table[hashIndex] == *item) { // If item is in hash table at it's hash index
+			comparisonCount++;
 			return item;
 		}
 		else { // If not in hash index spot, look through the rest of the hash table
 			for (int i = 0; i < arraySize - 1; i++) {
 				hashIndex++;
 				hashIndex %= arraySize;
+				comparisonCount++;
 				if (table[hashIndex] != nullptr && *table[hashIndex] == *item) {
 					return item;
 				}
@@ -97,13 +100,18 @@ public:
 		return itemCount;
 	}
 
+	int GetComparisons() {
+		return comparisonCount;
+	}
+
 	void Print() {
 		for (int i = 0; i < arraySize; i++) {
+			cout << i + 1 << ": ";
 			if (table[i] == nullptr) {
-				cout << "-empty-, ";
+				cout << "-empty-" << endl;
 			}
 			else {
-				cout << *table[i] << ", ";
+				cout << *table[i] << endl;
 			}
 		}
 	}

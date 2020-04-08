@@ -23,6 +23,7 @@ private:
 	ListNode* head; //list head pointer
 	ListNode* curr; //list iterator pointer
 	int size;
+	int comparisonCount = 0;
 public:
 	//constructor
 	LinkedList()
@@ -225,6 +226,22 @@ public:
 		}
 
 		return true;
+	}
+
+	// Assumes key is in the list (added for GetItem in ChainedHashTable.h)
+	// Returns a pointer to key in the list
+	T* Find(T* key) {
+		ListNode* temp = head;
+		comparisonCount++;
+		while (temp->value != *key) {
+			comparisonCount++;
+			temp = temp->next;
+		}
+		return &temp->value;
+	}
+
+	int GetComparison() {
+		return comparisonCount;
 	}
 
 	// returns a boolean denoting whether the list is empty

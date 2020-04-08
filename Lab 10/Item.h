@@ -22,6 +22,10 @@ public:
 		return this->SKU == rhs.SKU;
 	}
 
+	bool operator!=(const Item& rhs) {
+		return this->SKU != rhs.SKU;
+	}
+
 	bool operator<(const Item& rhs) {
 		return this->SKU < rhs.SKU;
 	}
