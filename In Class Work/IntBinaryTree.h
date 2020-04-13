@@ -1,6 +1,8 @@
 #pragma once
 #include <cstddef>
+#include <iostream>
 
+using namespace std;
 
 class Node {
 public: 
@@ -83,7 +85,10 @@ public:
 		return retval;
 	}
 
-	void Print() {
-
+	void Print(Node* curr) {
+		if (curr == nullptr) return;
+		Print(curr->left);
+		cout << curr->data; // print left and right data here to to keep structure
+		Print(curr->right);
 	}
 };

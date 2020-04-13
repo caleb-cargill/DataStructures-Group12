@@ -15,7 +15,7 @@ int main() {
 	srand(time(0));
 
 	// Create an array for the randomly generated SKU values
-	const static int arraySize = 50;
+	const static int arraySize = 250;
 	int SKUvalues[arraySize];
 	AddSKUs(SKUvalues, arraySize);
 

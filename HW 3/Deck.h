@@ -5,12 +5,12 @@ using namespace std;
 
 template<class T> class Deck {
 private:
-	LinkedList<T> list;
+	Placeholder<T> list;
 	int size = 0;
 public:
 	// Adds item to end of the line
 	void Enqueue(T inVal) {
-		list.Insert(inVal);
+	
 		size++;
 	}
 
@@ -19,7 +19,7 @@ public:
 		if (!isEmpty())
 		{
 			size--;
-			return list.RemoveFirst();
+			return list.GetItem(0);
 		}
 		else
 			throw QueueUnderflow();
@@ -27,9 +27,6 @@ public:
 
 	// Returns the data of the first item in line
 	T Peek() {
-		if (!isEmpty())
-			return list.GetHead();
-		else
 			throw QueueUnderflow();
 	}
 
@@ -42,7 +39,7 @@ public:
 	}
 
 	void MakeEmpty() {
-		list.MakeEmpty();
+		//list.MakeEmpty();
 	}
 
 	class QueueUnderflow : public exception {

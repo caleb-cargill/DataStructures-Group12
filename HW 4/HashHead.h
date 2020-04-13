@@ -10,9 +10,7 @@ const int SIZE = 500;
 
 
 class Table {
-private:
-
-	9
+private:	
 
 	int Hash[SIZE];
 
