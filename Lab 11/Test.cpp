@@ -11,7 +11,7 @@ int main() {
 	cin >> numVertices;
 	cout << endl;
 	
-	Graph graph(numVertices);
+	Graph<int> graph(numVertices);
 	graph.addVertices();
 
 	char input = ' ';
@@ -24,7 +24,9 @@ int main() {
 		cout << "Press 3 to find an edge in the graph" << endl;
 		cout << "Press 4 to find the out edges of a vertex" << endl;
 		cout << "Press 5 to find the in edges of a vertex" << endl;
-		cout << "Press 6 to quit" << endl << endl;
+		cout << "Press 6 to depth first search the graph" << endl;
+		cout << "Press 7 to breadth first search the graph" << endl;
+		cout << "Press 8 to quit" << endl << endl;
 		cout << "Input: ";
 		cin >> input;
 		cout << endl;
@@ -149,7 +151,15 @@ int main() {
 			}
 			break;
 		}
-		case '6': { // Quit
+		case '6': { // DFS
+			graph.depthFirstSeach();
+			break;
+		}
+		case '7': { // BFS
+			graph.breadthFirstSeach();
+			break;
+		}
+		case '8': { // Quit
 			break;
 		}
 		default: {

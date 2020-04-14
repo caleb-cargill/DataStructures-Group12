@@ -1,26 +1,30 @@
 #pragma once
 #include <iostream>
+#include "Queue.h"
+#include "Stack.h"
 
 // Used https://github.com/JerryGoyal/data-structure/blob/master/graph%20implementation%20using%20adjacency%20list%20linked%20list%20array.cpp as a starting point
 // Really only used for the idea of the Node and NodeList structs, everything else is original
 
 using namespace std;
 
-struct Node {
-    int data;
-    struct Node* next = nullptr;
-};
-
-struct NodeList {
-    struct Node* head = nullptr;
-    int numNodes = 0;
-};
-
+template <class T>
 class Graph
 {
 private:
+    struct Node {
+        T data;
+        struct Node* next = nullptr;
+    };
+
+    struct NodeList {
+        struct Node* head = nullptr;
+        int numNodes = 0;
+    };
+
     int numVertices;
     NodeList* nodesArray;
+
 public:
     // Resizes nodesArray based on input
     Graph(int vertices)
@@ -49,7 +53,7 @@ public:
     }
 
     // Adds a node for j into the list of nodes for i
-    void addEdge(int i, int j) {
+    void addEdge(T i, T j) {
         int iIndex = findVertexIndex(i);
         Node* newNode = new Node;
         newNode->data = j;
@@ -61,8 +65,12 @@ public:
         temp->next = newNode;
     }
 
-
-    void removeEdge(int i, int j) {
+    // Assigns temp to the head
+    // If the list is empty, it will return
+    // If not, it will stop when temp->next has the desired node to delete
+    // Reassigns temp->next and deletes the desired node
+    // Just returns if the desired node is not in the source node's output
+    void removeEdge(T i, T j) {
         int iIndex = findVertexIndex(i);
         Node* temp = nodesArray[iIndex].head;
         while (temp->next != nullptr) {
@@ -79,7 +87,9 @@ public:
         delete delNode;
     }
 
-    bool hasEdge(int i, int j) {
+    // Looks through the output vertices and returns true if the destination vertex is in there
+    // Returns false if not
+    bool hasEdge(T i, T j) {
         int iIndex = findVertexIndex(i);
         Node* temp = nodesArray[iIndex].head;
         if (temp->next == nullptr) { // Return false if list has no edges
@@ -94,7 +104,8 @@ public:
         return false;
     }
 
-    void outEdges(int i) {
+    // Looks through the inputted vertex and outputs all of its output vertex data
+    void outEdges(T i) {
         int iIndex = findVertexIndex(i);
         Node* temp = nodesArray[iIndex].head;
         cout << "Out Edges: ";
@@ -102,10 +113,12 @@ public:
             temp = temp->next;
             cout << temp->data << ", ";
         }
-        cout << endl;
+        cout << endl << endl;
     }
 
-    void inEdges(int input) {
+    // Looks through the lists of all the vertices besides the one inputted
+    // If the inputted vertex appears in the output of another vertex, output the vertex
+    void inEdges(T input) {
         int iIndex = findVertexIndex(input);
         cout << "In Edges: ";
         for (int i = 0; i < numVertices; i++) {
@@ -120,12 +133,12 @@ public:
                 }
             }
         }
-        cout << endl;
+        cout << endl << endl;
     }
 
     // Returns the index of the vertex in the array
     // Returns -1 if the vertex is not in the array
-    int findVertexIndex(int input) {
+    int findVertexIndex(T input) {
         for (int i = 0; i < numVertices; i++) {
             if (input == nodesArray[i].head->data) {
                 return i;
@@ -134,6 +147,7 @@ public:
         return -1;
     }
 
+    // Prints out a visualization of the graph for testing
     void printGraph() {
         for (int i = 0; i < numVertices; i++) {
             Node* temp = nodesArray[i].head;
@@ -144,6 +158,42 @@ public:
             }
             cout << endl;
         }
+    }
+
+    //https://www.geeksforgeeks.org/difference-between-bfs-and-dfs/ used for understanding more for DFS vs BFS
+
+    // Searches the graph in a depth first manner
+    // Outputs the nodes in the order they are searched
+    // Uses a stack
+    void depthFirstSeach() {
+
+    }
+
+    // Searches the graph in a breadth first manner
+    // Outputs the nodes in the order they are searched
+    // Uses a queue
+    void breadthFirstSeach() {
+        Queue<T> breadthSearch(numVertices);
+        for (int i = 0; i < numVertices; i++) {
+            Node* temp = nodesArray[i].head;
+            if (!breadthSearch.isInQueue(temp->data)) {
+                breadthSearch.Enqueue(temp->data);
+            }
+            while (temp->next != nullptr) {
+                temp = temp->next;
+                if (!breadthSearch.isInQueue(temp->data)) {
+                    breadthSearch.Enqueue(temp->data);
+                }
+            }
+            if (breadthSearch.isFull()) {
+                break;
+            }
+        }
+        cout << "Breadth first search: ";
+        for (int i = 0; i < numVertices; i++) {
+            cout << breadthSearch.Dequeue() << ", ";
+        }
+        cout << endl << endl;
     }
 
 };
