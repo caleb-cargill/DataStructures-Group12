@@ -6,7 +6,7 @@ using namespace std;
 
 template<class T> class Queue {
 private:
-	int MAX_SIZE = 5;
+	int MAX_SIZE = 100;
 	T* tower;
 	int back = 0;
 	int front = 0;

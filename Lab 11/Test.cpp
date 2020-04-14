@@ -16,7 +16,7 @@ int main() {
 
 	char input = ' ';
 
-	while (input != '6') {
+	while (input != '8') {
 		cout << "              Graph Menu" << endl;
 		cout << "----------------------------------------" << endl;
 		cout << "Press 1 to add an edge to the graph" << endl;

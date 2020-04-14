@@ -24,13 +24,15 @@ private:
 
     int numVertices;
     NodeList* nodesArray;
+    Queue<T> breadthSearch;
+    Queue<T> depthSearch;
 
 public:
     // Resizes nodesArray based on input
     Graph(int vertices)
     {
         numVertices = vertices;
-        nodesArray = new NodeList[numVertices];	
+        nodesArray = new NodeList[numVertices];
     }
 
     ~Graph() {
@@ -164,30 +166,67 @@ public:
 
     // Searches the graph in a depth first manner
     // Outputs the nodes in the order they are searched
-    // Uses a stack
-    void depthFirstSeach() {
+    // Uses a queue
+    void DFS(Node* curr) {
+        Node* temp = curr;
+        if (!depthSearch.isInQueue(curr->data)) {
+           depthSearch.Enqueue(curr->data);
+            while (temp->next != nullptr) {
+                temp = temp->next;
+                int tempIndex = findVertexIndex(temp->data);
+                DFS(nodesArray[tempIndex].head);
+            }
+        }
+        else {
+            return;
+        }
+        if (depthSearch.Length() >= numVertices) {
+            return;
+        }
+    }
 
+    // Displays DFS() starting from first vertex in array
+    void depthFirstSeach() {
+        int x = 0;
+        while (depthSearch.Length() < numVertices) {
+            DFS(nodesArray[x].head);
+            x++;
+        }
+        cout << "Depth first search: ";
+        for (int i = 0; i < numVertices; i++) {
+            cout << depthSearch.Dequeue() << ", ";
+        }
+        cout << endl << endl;
     }
 
     // Searches the graph in a breadth first manner
     // Outputs the nodes in the order they are searched
     // Uses a queue
-    void breadthFirstSeach() {
-        Queue<T> breadthSearch(numVertices);
-        for (int i = 0; i < numVertices; i++) {
-            Node* temp = nodesArray[i].head;
+    void BFS(Node* curr) {
+        Node* temp = curr;
+        if (!breadthSearch.isInQueue(curr->data)) {
+            breadthSearch.Enqueue(curr->data);
+        }
+        while (temp->next != nullptr) {
+            temp = temp->next;
             if (!breadthSearch.isInQueue(temp->data)) {
                 breadthSearch.Enqueue(temp->data);
             }
-            while (temp->next != nullptr) {
-                temp = temp->next;
-                if (!breadthSearch.isInQueue(temp->data)) {
-                    breadthSearch.Enqueue(temp->data);
-                }
-            }
-            if (breadthSearch.isFull()) {
-                break;
-            }
+        }
+        temp = curr;
+        while (temp->next != nullptr) {
+            temp = temp->next;
+            int tempIndex = findVertexIndex(temp->data);
+            BFS(nodesArray[tempIndex].head);
+        }
+    }
+    
+    // Displays BFS() starting from first vertex in array
+    void breadthFirstSeach() {
+        int x = 0;
+        while (breadthSearch.Length() < numVertices) {
+            BFS(nodesArray[x].head);
+            x++;
         }
         cout << "Breadth first search: ";
         for (int i = 0; i < numVertices; i++) {
@@ -196,4 +235,7 @@ public:
         cout << endl << endl;
     }
 
+    // BFS starts at a vertex and then adds its edge vertices values to the queue and the recursively calls the children
+    // DFS starts at a vertex and then recursively calls teh children and then adds the children to the queue
+    // They are very similar just do tasks in different orders6
 };
