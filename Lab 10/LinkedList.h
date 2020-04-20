@@ -6,7 +6,7 @@ using namespace std;
 
 template <class T> class LinkedList {
 
-private:
+private: 
 	// Struct to act as a node for the list
 	struct ListNode {
 		T value;					// The value in this node
