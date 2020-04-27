@@ -276,53 +276,27 @@ public:
 		curr = head;
 	}
 
+	// swaps data for two nodes in a linked list
+	void swapNodes(ListNode* firstNode, ListNode* secondNode) {
+		Student temp = firstNode->value;
+		firstNode->value = secondNode->value;
+		secondNode->value = temp;
+	}
+
 	// Sorts the linked list using a bubble sort
 	void bubbleSort(bool ascending = true) {
 		ListNode* temp1 = head;
-		int count1 = 0;
 		while (temp1 != nullptr && temp1->next != nullptr) {
 			ListNode* temp2 = head;
 			while (temp2 != nullptr && temp2->next != nullptr) {
 				if (ascending) {
 					if (temp2->value.fName > temp2->next->value.fName) {
-						ListNode temp = *temp2;
-						temp2->next = temp.next->next;
-
-						if (temp.next->next != nullptr)
-							temp.next->next->prev = temp2;
-
-						temp2->prev = temp.next;
-
-						if (temp.next->next != nullptr)
-							temp.next->next = temp2;
-
-						temp.next->prev = temp.prev;
-
-						if (temp.prev != nullptr)
-							temp.prev->next = temp.next;
-						else
-							head = temp.next;
+						swapNodes(temp2, temp2->next);
 					}
 				}
 				else {
 					if (temp2->value.fName < temp2->next->value.fName) {
-						ListNode temp = *temp2;
-						temp2->next = temp.next->next;
-
-						if (temp.next->next != nullptr)
-							temp.next->next->prev = temp2;
-
-						temp2->prev = temp.next;
-
-						if (temp.next->next != nullptr)
-							temp.next->next = temp2;
-
-						temp.next->prev = temp.prev;
-
-						if (temp.prev != nullptr)
-							temp.prev->next = temp.next;
-						else
-							head = temp.next;
+						swapNodes(temp2, temp2->next);
 					}
 				}
 				temp2 = temp2->next;
@@ -333,12 +307,74 @@ public:
 
 	// Sorts the linked list using an insertion sort
 	void insertionSort(bool ascending = true) {
+		ListNode* temp1 = head;
+		while (temp1 != nullptr) {
+			Student key = temp1->value;
+			ListNode* temp2 = temp1->prev;
+			if (ascending) {
+				while (temp2 != nullptr && key.lName < temp2->value.lName) {
+					swapNodes(temp2, temp2->next);
+					temp2 = temp2->prev;
+				}
+			}
+			else {
+				while (temp2 != nullptr && key.lName > temp2->value.lName) {
+					swapNodes(temp2, temp2->next);
+					temp2 = temp2->prev;
+				}
+			}
+			if (temp2 != nullptr && temp2->next != nullptr)
+				temp2->next->value = key;
+			temp1 = temp1->next;
+		}
+	}
 
+	ListNode* lastNode(ListNode* head) {
+		while (head != nullptr && head->next != nullptr) head = head->next;
+		return head;
+	}
+
+	void quickSort(bool ascending = true) {
+		ListNode* last = lastNode(head);
+
+		recQuickSort(ascending, head, last);
 	}
 
 	// Sorts the linked list using a radix sort
-	void radixSort(bool ascending = true) {
+	void recQuickSort(bool ascending, ListNode* left, ListNode* right) {
+		if (right != nullptr && left != right && left != right->next) {
+			ListNode* pivot = setPivot(ascending, left, right);
+			recQuickSort(ascending, left, pivot->prev);
+			recQuickSort(ascending, pivot->next, right);
+		}
+	}
 
+	ListNode* setPivot(bool ascending, ListNode* left, ListNode* right) {
+		Student stud = right->value;
+
+		ListNode* temp = left->prev;
+		ListNode* temp2 = left;
+		while (temp2 != right && temp2 != nullptr) {
+			if (ascending) {
+				if (temp2->value.mNumber <= stud.mNumber)
+				{
+					temp = (temp == nullptr) ? left : temp->next;
+					swapNodes(temp, temp2);
+				}
+			}
+			else {
+				if (temp2->value.mNumber >= stud.mNumber)
+				{
+					temp = (temp == nullptr) ? left : temp->next;
+					swapNodes(temp, temp2);
+				}
+			}
+			temp2 = temp2->next;
+		}
+
+		temp = (temp == nullptr) ? left : temp->next;
+		swapNodes(temp, right);
+		return temp;
 	}
 
 	void PrintList() {

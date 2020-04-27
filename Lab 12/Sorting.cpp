@@ -68,7 +68,7 @@ int main() {
 // Tests tasks 1 and 2
 void runTaskOneTwo() {
 	// Array size
-	const static int n = 10;
+	const static int n = 25000;
 
 	int arr[n];
 	int arrCopy[n];
@@ -199,8 +199,8 @@ void runTaskThree() {
 		cout << "Press 2 to sort descending by first name (Bubble Sort)" << endl;
 		cout << "Press 3 to sort ascending by last name (Insertion Sort)" << endl;
 		cout << "Press 4 to sort descending by last name (Insertion Sort)" << endl;
-		cout << "Press 5 to sort ascending by MNumber (Radix Sort)" << endl;
-		cout << "Press 6 to sort descending by MNumber (Radix Sort)" << endl;
+		cout << "Press 5 to sort ascending by MNumber (Quick Sort)" << endl;
+		cout << "Press 6 to sort descending by MNumber (Quick Sort)" << endl;
 		cout << "Press 7 to quit" << endl << endl;
 		cout << "Input: ";
 		cin >> menuChoice;
@@ -232,13 +232,13 @@ void runTaskThree() {
 		}
 				break;
 		case '5': {
-			thisList->radixSort(true);
+			thisList->quickSort(true);
 			cout << endl << endl << "List sorted by ascending MNumber: " << endl;
 			cout << "----------------------------------------" << endl;
 		}
 				break;
 		case '6': {
-			thisList->radixSort(false);
+			thisList->quickSort(false);
 			cout << endl << endl << "List sorted by descending MNumber: " << endl;
 			cout << "----------------------------------------" << endl;
 		}
